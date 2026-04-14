@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kevin Winkel</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -13,108 +15,323 @@
 
     body {
       min-height: 100vh;
-      background-color: #1a1a2e;
+      background: #0f0f0f;
+      background-image: 
+        radial-gradient(ellipse at 50% 0%, #1a1a2e 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, #151520 0%, transparent 40%),
+        radial-gradient(ellipse at 20% 90%, #101018 0%, transparent 40%);
       display: flex;
       justify-content: center;
       align-items: center;
+      font-family: 'Outfit', sans-serif;
       overflow: hidden;
     }
 
-    .eyes-container {
+    .face {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       gap: 30px;
+      transform: translateY(-5%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(-5%) translateY(0); }
+      50% { transform: translateY(-5%) translateY(-8px); }
+    }
+
+    .eyes {
+      display: flex;
+      gap: 60px;
+      position: relative;
+    }
+
+    .eye-wrapper {
+      position: relative;
     }
 
     .eye {
-      width: 120px;
-      height: 140px;
-      background: #fff;
-      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      width: 90px;
+      height: 90px;
+      background: linear-gradient(145deg, #ffffff 0%, #e8e8e8 100%);
+      border-radius: 50%;
       position: relative;
-      overflow: hidden;
       box-shadow: 
-        0 0 40px rgba(255, 255, 255, 0.1),
-        inset 0 0 30px rgba(0, 0, 0, 0.1);
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 -5px 15px rgba(0, 0, 0, 0.05),
+        inset 0 5px 10px rgba(255, 255, 255, 0.8);
+      transition: transform 0.15s ease-out;
     }
 
     .pupil {
-      width: 50px;
-      height: 50px;
-      background: #1a1a2e;
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at 40% 40%, #1a1a1a 0%, #0a0a0a 100%);
       border-radius: 50%;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      transition: transform 0.05s ease-out;
+      transition: transform 0.1s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.25s ease, height 0.25s ease;
+      box-shadow: 
+        inset 0 3px 6px rgba(255, 255, 255, 0.2),
+        0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .pupil::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 40%, transparent 70%);
+      border-radius: 50%;
+      top: 3px;
+      left: 5px;
     }
 
     .pupil::after {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background: #fff;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 50%;
-      top: 8px;
-      right: 8px;
+      top: 12px;
+      left: 20px;
     }
 
-    .eyelid {
+    @keyframes blink {
+      0%, 8%, 92%, 100% { transform: scaleY(1); }
+      4% { transform: scaleY(0.08); }
+    }
+
+    .eye {
+      animation: blink var(--blink-duration, 8s) infinite;
+      animation-delay: var(--blink-delay, 0s);
+    }
+
+    .eyebrow {
+      position: absolute;
+      width: 70px;
+      height: 8px;
+      background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+      border-radius: 4px;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.2s ease, height 0.2s ease, top 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .eyebrow-left {
+      transform: translateX(-50%) rotate(-3deg);
+    }
+
+    .eyebrow-right {
+      transform: translateX(-50%) rotate(3deg);
+    }
+
+    .eyebrow.nervous {
+      top: -15px;
+      height: 6px;
+    }
+
+    .eyebrow.nervous-left {
+      transform: translateX(-50%) rotate(-8deg);
+    }
+
+    .eyebrow.nervous-right {
+      transform: translateX(-50%) rotate(8deg);
+    }
+
+    .eyebrow.unhappy {
+      top: -12px;
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+    .eyebrow.unhappy-left {
+      transform: translateX(-50%) rotate(-15deg);
+    }
+
+    .eyebrow.unhappy-right {
+      transform: translateX(-50%) rotate(15deg);
+    }
+
+    .mouth {
+      width: 70px;
+      height: 22px;
+      background: linear-gradient(180deg, #1f1f1f 0%, #151515 100%);
+      border-radius: 0 0 35px 35px;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding-bottom: 3px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .mouth::before {
+      content: '';
+      width: 44px;
+      height: 10px;
+      background: linear-gradient(180deg, #d85555 0%, #b84040 100%);
+      border-radius: 0 0 22px 22px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .mouth::after {
+      content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
-      height: 40px;
-      background: #1a1a2e;
-      border-radius: 50% 50% 0 0;
-      z-index: 2;
+      width: 50px;
+      height: 6px;
+      background: transparent;
+      border-radius: 50%;
+      border-bottom: 2px solid #252525;
+      transform: translateY(-50%);
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+
+    .mouth.nervous {
+      border-radius: 50% 50% 25px 25px;
+      height: 18px;
+    }
+
+    .mouth.nervous::before {
+      height: 5px;
+      width: 26px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .mouth.unhappy {
+      border-radius: 25px 25px 35px 35px;
+      transform: translateY(6px);
+      height: 16px;
+    }
+
+    .mouth.unhappy::before {
+      background: linear-gradient(180deg, #7a3535 0%, #5a2525 100%);
+      height: 6px;
+      width: 16px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .mouth.unhappy::after {
+      opacity: 1;
+      border-bottom: 2px solid #252525;
+      border-top: none;
+      top: auto;
+      bottom: 0;
+      transform: none;
+      width: 32px;
+      border-radius: 0;
     }
   </style>
 </head>
 <body>
-  <div class="eyes-container">
-    <div class="eye">
-      <div class="eyelid"></div>
-      <div class="pupil"></div>
+  <div class="face">
+    <div class="eyes">
+      <div class="eye-wrapper">
+        <div class="eyebrow eyebrow-left"></div>
+        <div class="eye">
+          <div class="pupil"></div>
+        </div>
+      </div>
+      <div class="eye-wrapper">
+        <div class="eyebrow eyebrow-right"></div>
+        <div class="eye">
+          <div class="pupil"></div>
+        </div>
+      </div>
     </div>
-    <div class="eye">
-      <div class="eyelid"></div>
-      <div class="pupil"></div>
-    </div>
+    <div class="mouth"></div>
   </div>
 
   <script>
     const pupils = document.querySelectorAll('.pupil');
-    const eyeWidth = 120;
-    const eyeHeight = 140;
-    const pupilSize = 50;
-    const maxOffsetX = (eyeWidth - pupilSize) / 2;
-    const maxOffsetY = (eyeHeight - pupilSize) / 2;
+    const eyes = document.querySelectorAll('.eye');
+    const eyebrows = document.querySelectorAll('.eyebrow');
+    const mouth = document.querySelector('.mouth');
+    const maxOffset = 18;
+    let anxiety = 0;
+
+    eyes[1].style.setProperty('--blink-delay', '0.2s');
 
     document.addEventListener('mousemove', (e) => {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
       
-      const deltaX = e.clientX - centerX;
-      const deltaY = e.clientY - centerY;
+      const deltaX = (e.clientX - centerX) / centerX;
+      const deltaY = (e.clientY - centerY) / centerY;
       
-      const angle = Math.atan2(deltaY, deltaX);
-      const distance = Math.min(
-        Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 300,
-        1
-      );
-      
-      const offsetX = Math.cos(angle) * maxOffsetX * distance;
-      const offsetY = Math.sin(angle) * maxOffsetY * distance;
+      const offsetX = deltaX * maxOffset;
+      const offsetY = deltaY * maxOffset;
+
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      anxiety = Math.max(0, Math.min(1, 1 - distance * 1.2));
 
       pupils.forEach((pupil, index) => {
-        const parallax = index === 0 ? 0.9 : 1.1;
-        const adjustedX = offsetX * parallax;
-        const adjustedY = offsetY * parallax;
-        
-        pupil.style.transform = `translate(calc(-50% + ${adjustedX}px), calc(-50% + ${adjustedY}px))`;
+        const parallax = index === 0 ? 0.95 : 1.05;
+        let offsetXAdjusted = offsetX * parallax;
+        let offsetYAdjusted = offsetY * parallax;
+
+        if (anxiety > 0.3) {
+          const shake = (Math.random() - 0.5) * 10 * anxiety;
+          offsetXAdjusted += shake;
+          offsetYAdjusted += shake;
+        }
+
+        pupil.style.transform = `translate(calc(-50% + ${offsetXAdjusted}px), calc(-50% + ${offsetYAdjusted}px))`;
+        pupil.style.width = `${40 + anxiety * 14}px`;
+        pupil.style.height = `${40 + anxiety * 14}px`;
       });
+
+      if (anxiety > 0.7) {
+        mouth.classList.remove('nervous');
+        mouth.classList.add('unhappy');
+        eyebrows.forEach((eb, i) => {
+          eb.className = `eyebrow ${i === 0 ? 'eyebrow-left' : 'eyebrow-right'} unhappy ${i === 0 ? 'unhappy-left' : 'unhappy-right'}`;
+        });
+        eyes.forEach(eye => {
+          eye.style.setProperty('--blink-duration', `${5 - anxiety * 2}s`);
+        });
+      } else if (anxiety > 0.4) {
+        mouth.classList.remove('unhappy');
+        mouth.classList.add('nervous');
+        eyebrows.forEach((eb, i) => {
+          eb.className = `eyebrow ${i === 0 ? 'eyebrow-left' : 'eyebrow-right'} nervous ${i === 0 ? 'nervous-left' : 'nervous-right'}`;
+        });
+        eyes.forEach(eye => {
+          eye.style.setProperty('--blink-duration', `${7 - anxiety * 3}s`);
+        });
+      } else {
+        mouth.classList.remove('nervous', 'unhappy');
+        eyebrows.forEach((eb, i) => {
+          eb.className = `eyebrow ${i === 0 ? 'eyebrow-left' : 'eyebrow-right'}`;
+        });
+        eyes.forEach(eye => {
+          eye.style.setProperty('--blink-duration', '8s');
+        });
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      anxiety = 0;
+      pupils.forEach(pupil => {
+        pupil.style.transform = 'translate(-50%, -50%)';
+        pupil.style.width = '40px';
+        pupil.style.height = '40px';
+      });
+      eyes.forEach(eye => eye.style.setProperty('--blink-duration', '8s'));
+      eyebrows.forEach((eb, i) => {
+        eb.className = `eyebrow ${i === 0 ? 'eyebrow-left' : 'eyebrow-right'}`;
+      });
+      mouth.classList.remove('nervous', 'unhappy');
     });
   </script>
 </body>
